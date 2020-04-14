@@ -11,9 +11,7 @@ const Burger = ({ ingredients }) => {
           return <Ingredient key={key + i} type={key.toUpperCase()} />;
         });
       })
-      .reduce((arr, el) => {
-        return arr.concat(el);
-      }, []);
+      .reduce((arr, el) => arr.concat(el), []);
 
     if (burgerIngredients.length === 0) {
       burgerIngredients = <p>Please start adding ingredients!</p>;
