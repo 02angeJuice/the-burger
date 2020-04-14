@@ -1,3 +1,18 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
 .title {
   color: red;
+}
+
+.fucker__bold {
+  font-weight: 700;
+  background-color: pink;
+}
+
+.fucker:hover {
+  color: rgb(255, 0, 255);
 }
