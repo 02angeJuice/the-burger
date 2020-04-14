@@ -7,10 +7,6 @@ import BurgerBuilder from '../containers/builder/BurgerBuilder';
 const App = () => {
   return (
     <Layout>
-      <p className={`${styles.title} ${styles.fucker__bold}`}>The Burger</p>
-
-      <p>Fucker's Burger</p>
-
       <BurgerBuilder />
     </Layout>
   );

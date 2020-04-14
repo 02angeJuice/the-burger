@@ -10,19 +10,33 @@ const initControls = [
   { label: 'salad', type: 'salad' },
 ];
 
-const Controls = () => {
-  // const [bacon, setBacon] = useState(0);
-  // const [cheese, setCheese] = useState(0);
-  // const [meat, setMeat] = useState(0);
-  // const [salad, setSalad] = useState(0);
-
+const Controls = ({ added, removed, disabled, price }) => {
   const renderBuildControl = () => {
-    return initControls.map(({ label }) => {
-      return <BuildControl key={label} label={label} />;
+    return initControls.map(({ label, type }) => {
+      return (
+        <BuildControl
+          key={label}
+          added={() => added(type)}
+          removed={() => removed(type)}
+          label={label}
+          disabled={disabled[type]}
+        />
+      );
     });
   };
 
-  return <div className={classes.Controls}>{renderBuildControl()}</div>;
+  const renderPrice = () => {
+    if (price > 0) return <p>Current Price: {price}$</p>;
+
+    return <p>Current Price: 0$</p>;
+  };
+
+  return (
+    <div className={classes.Controls}>
+      {renderPrice()}
+      {renderBuildControl()}
+    </div>
+  );
 };
 
 export default Controls;
