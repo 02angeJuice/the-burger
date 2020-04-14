@@ -1,9 +1,11 @@
 import React from 'react';
 import classes from './Modal.css';
+import Aux from '../../../hoc/Aux';
+import Backdrop from '../backdrop/Backdrop';
 
-const Modal = ({ children, show }) => {
+const Modal = ({ children, showModal, closeModal }) => {
   const renderModal = () => {
-    // if (!show) {
+    // if (!showModal) {
     //   return null;
     // }
 
@@ -11,8 +13,8 @@ const Modal = ({ children, show }) => {
       <div
         className={classes.Modal}
         style={{
-          transform: show ? 'translateY(0)' : 'translateY(-100vh)',
-          opacity: show ? '1' : '0',
+          transform: showModal ? 'translateY(0)' : 'translateY(-100vh)',
+          opacity: showModal ? '1' : '0',
         }}
       >
         {children}
@@ -20,7 +22,12 @@ const Modal = ({ children, show }) => {
     );
   };
 
-  return <>{renderModal()}</>;
+  return (
+    <Aux>
+      <Backdrop show={showModal} clicked={closeModal} />
+      {renderModal()}
+    </Aux>
+  );
 };
 
 export default Modal;

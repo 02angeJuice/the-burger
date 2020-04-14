@@ -37,23 +37,18 @@ const BurgerBuilder = () => {
   };
 
   const disabledInfo = () => {
-    const isDisable = {
-      ...ingredients,
-    };
+    const isDisable = { ...ingredients };
 
-    for (let key in isDisable) {
-      isDisable[key] = isDisable[key] <= 0 ? true : false;
-    }
+    for (let key in isDisable) isDisable[key] = isDisable[key] <= 0;
 
+    // return true / false
     return isDisable;
   };
 
   const addIngredientHandler = (type) => {
     const count = ingredients[type];
     const setCount = count + 1;
-    const newIngredients = {
-      ...ingredients,
-    };
+    const newIngredients = { ...ingredients };
 
     newIngredients[type] = setCount;
     setIngredients(newIngredients);
@@ -70,9 +65,7 @@ const BurgerBuilder = () => {
     const count = ingredients[type];
     let setCount = count - 1;
     if (setCount < 0) return;
-    const newIngredients = {
-      ...ingredients,
-    };
+    const newIngredients = { ...ingredients };
 
     newIngredients[type] = setCount;
     setIngredients(newIngredients);
@@ -84,14 +77,20 @@ const BurgerBuilder = () => {
     updatePurchaseState(newIngredients);
   };
 
-  const purchaseHandler = () => {
-    setPurchasing(true);
+  const purchaseHandler = () => setPurchasing(true);
+  const purchaseCancelHandler = () => setPurchasing(false);
+  const purchaseContinueHandler = () => {
+    alert('fucker');
   };
-
   return (
     <Aux>
-      <Modal show={purchasing}>
-        <OrderSummary ingredients={ingredients} price={totalPrice.toFixed(1)} />
+      <Modal showModal={purchasing} closeModal={purchaseCancelHandler}>
+        <OrderSummary
+          ingredients={ingredients}
+          price={totalPrice.toFixed(1)}
+          orderCancel={purchaseCancelHandler}
+          orderContinue={purchaseContinueHandler}
+        />
       </Modal>
       <Burger ingredients={ingredients} />
       <Controls

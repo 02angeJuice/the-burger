@@ -3,12 +3,12 @@ import classes from './Layout.css';
 
 import Aux from '../../hoc/Aux';
 
-const Layout = (props) => {
+const Layout = ({ children }) => {
   return (
     <Aux>
       <div>Toolbar, SideDrawer, Backdrop</div>
 
-      <main className={classes.Content}>{props.children}</main>
+      <main className={classes.Content}>{children}</main>
     </Aux>
   );
 };
