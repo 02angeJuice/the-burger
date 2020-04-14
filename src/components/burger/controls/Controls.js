@@ -10,7 +10,14 @@ const initControls = [
   { label: 'salad', type: 'salad' },
 ];
 
-const Controls = ({ added, removed, disabled, purchasable, price }) => {
+const Controls = ({
+  added,
+  removed,
+  disabled,
+  purchasable,
+  price,
+  ordered,
+}) => {
   const renderBuildControl = () => {
     return initControls.map(({ label, type }) => {
       return (
@@ -26,26 +33,21 @@ const Controls = ({ added, removed, disabled, purchasable, price }) => {
   };
 
   const renderPrice = () => {
-    if (price > 0)
-      return (
-        <p>
-          Current Price: <strong>{price}$</strong>
-        </p>
-      );
-
-    return (
-      <p>
-        Current Price: <strong>0$</strong>
-      </p>
-    );
+    return price > 0 ? price : 0;
   };
-  console.log(purchasable);
 
   return (
     <div className={classes.Controls}>
-      {renderPrice()}
+      <p>
+        Current Price: <strong>{renderPrice()}$</strong>
+      </p>
+
       {renderBuildControl()}
-      <button className={classes.OrderButton} disabled={!purchasable}>
+      <button
+        onClick={ordered}
+        className={classes.OrderButton}
+        disabled={!purchasable}
+      >
         ORDER NOW
       </button>
     </div>

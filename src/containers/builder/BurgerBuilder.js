@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/burger/Burger';
 import Controls from '../../components/burger/controls/Controls';
+import Modal from '../../components/UI/modal/Modal';
+import OrderSummary from '../../components/burger/OrderSummary';
 
 const INGREDIENT_PRICES = {
   bacon: 0.7,
@@ -22,6 +24,7 @@ const BurgerBuilder = () => {
   const [ingredients, setIngredients] = useState(initState);
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchasable, setPurchasable] = useState(false);
+  const [purchasing, setPurchasing] = useState(false);
 
   const updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
@@ -31,6 +34,18 @@ const BurgerBuilder = () => {
       .reduce((sum, el) => sum + el, 0);
 
     setPurchasable(sum > 0);
+  };
+
+  const disabledInfo = () => {
+    const isDisable = {
+      ...ingredients,
+    };
+
+    for (let key in isDisable) {
+      isDisable[key] = isDisable[key] <= 0 ? true : false;
+    }
+
+    return isDisable;
   };
 
   const addIngredientHandler = (type) => {
@@ -69,23 +84,23 @@ const BurgerBuilder = () => {
     updatePurchaseState(newIngredients);
   };
 
-  const disabledInfo = {
-    ...ingredients,
+  const purchaseHandler = () => {
+    setPurchasing(true);
   };
-
-  for (let key in disabledInfo) {
-    disabledInfo[key] = disabledInfo[key] <= 0 ? true : false;
-  }
 
   return (
     <Aux>
+      <Modal show={purchasing}>
+        <OrderSummary ingredients={ingredients} price={totalPrice.toFixed(1)} />
+      </Modal>
       <Burger ingredients={ingredients} />
       <Controls
         added={addIngredientHandler}
         removed={removeIngredientHandler}
-        disabled={disabledInfo}
+        disabled={disabledInfo()}
         purchasable={purchasable}
         price={totalPrice.toFixed(1)}
+        ordered={purchaseHandler}
       />
     </Aux>
   );
