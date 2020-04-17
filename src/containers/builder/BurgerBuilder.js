@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/burger/Burger';
 import Controls from '../../components/burger/controls/Controls';
-import Modal from '../../components/UI/modal/Modal';
+import Modal from '../../components/ui/modal/Modal';
 import OrderSummary from '../../components/burger/OrderSummary';
 
 const INGREDIENT_PRICES = {
@@ -14,10 +14,10 @@ const INGREDIENT_PRICES = {
 };
 
 const initState = {
+  salad: 0,
   bacon: 0,
   cheese: 0,
   meat: 0,
-  salad: 0,
 };
 
 const BurgerBuilder = () => {

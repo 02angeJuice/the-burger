@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Aux from '../../hoc/Aux';
-import Button from '../UI/button/Button';
+import Button from '../ui/button/Button';
 
 const OrderSummary = ({ ingredients, price, orderCancel, orderContinue }) => {
   const ingredientSummary = Object.keys(ingredients).map((key) => {
@@ -18,7 +18,9 @@ const OrderSummary = ({ ingredients, price, orderCancel, orderContinue }) => {
       <h3>Your Order</h3>
       <p>A delicious burger with the following ingredients:</p>
       <ul>{ingredientSummary}</ul>
-      <p>Total Price: {price > 0 ? price : 0}$</p>
+      <p>
+        <strong>Total Price: {price > 0 ? price : 0}$</strong>
+      </p>
       <p>Continue to Checkout?</p>
       <Button clicked={orderCancel} type="Danger">
         Cancel

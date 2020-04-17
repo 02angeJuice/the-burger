@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Burger.css';
 
-import Ingredient from './Ingredient';
+import Ingredient from './ingredients/Ingredient';
 
 const Burger = ({ ingredients }) => {
   const renderBurger = () => {

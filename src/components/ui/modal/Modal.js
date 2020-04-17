@@ -5,10 +5,6 @@ import Backdrop from '../backdrop/Backdrop';
 
 const Modal = ({ children, showModal, closeModal }) => {
   const renderModal = () => {
-    // if (!showModal) {
-    //   return null;
-    // }
-
     return (
       <div
         className={classes.Modal}
