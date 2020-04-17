@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Aux from '../../hoc/Aux';
 import Burger from '../../components/burger/Burger';
 import Controls from '../../components/burger/controls/Controls';
 import Modal from '../../components/ui/modal/Modal';
@@ -80,10 +79,10 @@ const BurgerBuilder = () => {
   const purchaseHandler = () => setPurchasing(true);
   const purchaseCancelHandler = () => setPurchasing(false);
   const purchaseContinueHandler = () => {
-    alert('fucker');
+    alert('continue some events...');
   };
   return (
-    <Aux>
+    <>
       <Modal showModal={purchasing} closeModal={purchaseCancelHandler}>
         <OrderSummary
           ingredients={ingredients}
@@ -101,7 +100,7 @@ const BurgerBuilder = () => {
         price={totalPrice.toFixed(1)}
         ordered={purchaseHandler}
       />
-    </Aux>
+    </>
   );
 };
 

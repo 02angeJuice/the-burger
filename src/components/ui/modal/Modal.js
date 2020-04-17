@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Modal.css';
-import Aux from '../../../hoc/Aux';
+
 import Backdrop from '../backdrop/Backdrop';
 
 const Modal = ({ children, showModal, closeModal }) => {
@@ -19,10 +19,10 @@ const Modal = ({ children, showModal, closeModal }) => {
   };
 
   return (
-    <Aux>
+    <>
       <Backdrop show={showModal} clicked={closeModal} />
       {renderModal()}
-    </Aux>
+    </>
   );
 };
 
