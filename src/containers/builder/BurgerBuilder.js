@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from '../../axios-orders';
 
 import withErrorHandler from '../../withErrorHandler';
@@ -16,19 +16,25 @@ const INGREDIENT_PRICES = {
   salad: 0.5,
 };
 
-const initState = {
-  salad: 0,
-  bacon: 0,
-  cheese: 0,
-  meat: 0,
-};
-
 const BurgerBuilder = () => {
-  const [ingredients, setIngredients] = useState(initState);
+  const [ingredients, setIngredients] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchasable, setPurchasable] = useState(false);
   const [purchasing, setPurchasing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get('/ingredients.json');
+
+        setIngredients(res.data);
+      } catch (error) {
+        setError(true);
+      }
+    })();
+  }, []);
 
   const updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
@@ -102,6 +108,7 @@ const BurgerBuilder = () => {
       };
 
       await axios.post('/orders.json', order);
+
       setLoading(false);
       setPurchasing(false);
     } catch (error) {
@@ -111,7 +118,7 @@ const BurgerBuilder = () => {
   };
 
   const renderOrderSummary = () => {
-    if (!loading) {
+    if (!loading && ingredients) {
       return (
         <OrderSummary
           ingredients={ingredients}
@@ -125,20 +132,33 @@ const BurgerBuilder = () => {
     return <Spinner />;
   };
 
+  const renderBurger = () => {
+    if (ingredients) {
+      return (
+        <>
+          <Burger ingredients={ingredients} />
+          <Controls
+            added={addIngredientHandler}
+            removed={removeIngredientHandler}
+            disabled={disabledInfo()}
+            purchasable={purchasable}
+            price={totalPrice.toFixed(1)}
+            ordered={purchaseHandler}
+          />
+        </>
+      );
+    }
+
+    return <>{error ? <p>Ingredients can't be loaded!</p> : <Spinner />}</>;
+  };
+
   return (
     <>
       <Modal showModal={purchasing} closeModal={purchaseCancelHandler}>
         {renderOrderSummary()}
       </Modal>
-      <Burger ingredients={ingredients} />
-      <Controls
-        added={addIngredientHandler}
-        removed={removeIngredientHandler}
-        disabled={disabledInfo()}
-        purchasable={purchasable}
-        price={totalPrice.toFixed(1)}
-        ordered={purchaseHandler}
-      />
+
+      {renderBurger()}
     </>
   );
 };
