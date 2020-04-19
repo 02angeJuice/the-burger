@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from '../../axios-orders';
 
+import withErrorHandler from '../../withErrorHandler';
+
 import Burger from '../../components/burger/Burger';
 import Controls from '../../components/burger/controls/Controls';
 import Modal from '../../components/ui/modal/Modal';
@@ -99,14 +101,12 @@ const BurgerBuilder = () => {
         deliveryMethod: 'fastest',
       };
 
-      const res = await axios.post('/orders.json', order);
+      await axios.post('/orders.json', order);
       setLoading(false);
       setPurchasing(false);
-      console.log(res);
     } catch (error) {
       setLoading(false);
       setPurchasing(false);
-      return console.log(error);
     }
   };
 
@@ -143,4 +143,4 @@ const BurgerBuilder = () => {
   );
 };
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
