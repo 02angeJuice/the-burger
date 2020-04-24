@@ -16,7 +16,7 @@ const INGREDIENT_PRICES = {
   salad: 0.5,
 };
 
-const BurgerBuilder = () => {
+const BurgerBuilder = (props) => {
   const [ingredients, setIngredients] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchasable, setPurchasable] = useState(false);
@@ -25,6 +25,8 @@ const BurgerBuilder = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    console.log(props);
+
     (async () => {
       try {
         const res = await axios.get('/ingredients.json');
@@ -90,31 +92,36 @@ const BurgerBuilder = () => {
   const purchaseHandler = () => setPurchasing(true);
   const purchaseCancelHandler = () => setPurchasing(false);
   const purchaseContinueHandler = async () => {
-    setLoading(true);
-    try {
-      const order = {
-        ingresients: ingredients,
-        price: totalPrice,
-        customer: {
-          name: 'banndit',
-          address: {
-            street: 'Bangpli',
-            zipcode: '10540',
-            country: 'Thailand',
-          },
-          email: 'test@test.com',
-        },
-        deliveryMethod: 'fastest',
-      };
+    // setLoading(true);
+    // try {
+    //   const order = {
+    //     ingresients: ingredients,
+    //     price: totalPrice,
+    //     customer: {
+    //       name: 'banndit',
+    //       address: {
+    //         street: 'Bangpli',
+    //         zipcode: '10540',
+    //         country: 'Thailand',
+    //       },
+    //       email: 'test@test.com',
+    //     },
+    //     deliveryMethod: 'fastest',
+    //   };
+    //   await axios.post('/orders.json', order);
+    //   setLoading(false);
+    //   setPurchasing(false);
+    // } catch (error) {
+    //   setLoading(false);
+    //   setPurchasing(false);
+    // }
 
-      await axios.post('/orders.json', order);
+    const queryParams = [];
 
-      setLoading(false);
-      setPurchasing(false);
-    } catch (error) {
-      setLoading(false);
-      setPurchasing(false);
-    }
+    props.history.push({
+      pathname: '/checkout',
+      search: '',
+    });
   };
 
   const renderOrderSummary = () => {
