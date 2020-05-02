@@ -89,31 +89,7 @@ const BurgerBuilder = (props) => {
 
   const purchaseHandler = () => setPurchasing(true);
   const purchaseCancelHandler = () => setPurchasing(false);
-  const purchaseContinueHandler = async () => {
-    // setLoading(true);
-    // try {
-    //   const order = {
-    //     ingresients: ingredients,
-    //     price: totalPrice,
-    //     customer: {
-    //       name: 'banndit',
-    //       address: {
-    //         street: 'Bangpli',
-    //         zipcode: '10540',
-    //         country: 'Thailand',
-    //       },
-    //       email: 'test@test.com',
-    //     },
-    //     deliveryMethod: 'fastest',
-    //   };
-    //   await axios.post('/orders.json', order);
-    //   setLoading(false);
-    //   setPurchasing(false);
-    // } catch (error) {
-    //   setLoading(false);
-    //   setPurchasing(false);
-    // }
-
+  const purchaseContinueHandler = () => {
     const queryParams = [];
     for (const i in ingredients) {
       queryParams.push(
@@ -121,6 +97,7 @@ const BurgerBuilder = (props) => {
       );
     }
 
+    queryParams.push(`price=${totalPrice.toFixed(1)}`);
     const queryString = queryParams.join('&');
 
     props.history.push({

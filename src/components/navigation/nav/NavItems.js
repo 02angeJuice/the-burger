@@ -6,10 +6,10 @@ import Item from './Item';
 const Items = () => {
   return (
     <ul className={classes.NavItems}>
-      <Item link="/" active>
+      <Item link="/" exact>
         Burger Builder
       </Item>
-      <Item link="/">Checkout</Item>
+      <Item link="/orders">Orders</Item>
     </ul>
   );
 };
