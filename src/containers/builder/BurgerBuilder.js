@@ -25,8 +25,6 @@ const BurgerBuilder = (props) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    console.log(props);
-
     (async () => {
       try {
         const res = await axios.get('/ingredients.json');
@@ -117,10 +115,17 @@ const BurgerBuilder = (props) => {
     // }
 
     const queryParams = [];
+    for (const i in ingredients) {
+      queryParams.push(
+        `${encodeURIComponent(i)}=${encodeURIComponent(ingredients[i])}`
+      );
+    }
+
+    const queryString = queryParams.join('&');
 
     props.history.push({
       pathname: '/checkout',
-      search: '',
+      search: `?${queryString}`,
     });
   };
 
