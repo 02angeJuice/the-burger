@@ -10,7 +10,7 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
+    async function fetchedOrdersFunc() {
       try {
         const res = await axios.get('/orders.json');
 
@@ -27,13 +27,22 @@ const Orders = () => {
       } catch (error) {
         setLoading(false);
       }
-    })();
+    }
+
+    fetchedOrdersFunc();
   }, []);
 
   const renderOrders = () => {
     if (!loading) {
-      return orders.map(({ id, ingredients, price }) => {
-        return <Order key={id} ingredients={ingredients} price={price} />;
+      return orders.map(({ id, ingredients, price, orderData }) => {
+        return (
+          <Order
+            key={id}
+            ingredients={ingredients}
+            price={price}
+            data={orderData}
+          />
+        );
       });
     }
 

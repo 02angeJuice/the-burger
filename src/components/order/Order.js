@@ -1,9 +1,8 @@
 import React from 'react';
 import classes from './Order.css';
 
-const Order = ({ ingredients, price }) => {
+const Order = ({ ingredients, price, data }) => {
   const list = [];
-
   for (const name in ingredients) {
     list.push({
       name: name,
@@ -12,7 +11,7 @@ const Order = ({ ingredients, price }) => {
   }
 
   const renderIngredientList = () => {
-    return list.map(({ name, amount }) => {
+    return list.forEach(({ name, amount }) => {
       if (amount > 0) {
         return (
           <span
@@ -29,8 +28,6 @@ const Order = ({ ingredients, price }) => {
           </span>
         );
       }
-
-      return null;
     });
   };
 
@@ -41,6 +38,17 @@ const Order = ({ ingredients, price }) => {
       <p>
         Price: <strong>{price}$</strong>
       </p>
+
+      <p>Customer</p>
+
+      <ul>
+        <li>
+          Name: <strong>{data.name}</strong>
+        </li>
+        <li>
+          Email: <strong>{data.email}</strong>
+        </li>
+      </ul>
     </div>
   );
 };

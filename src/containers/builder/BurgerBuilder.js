@@ -21,7 +21,7 @@ const BurgerBuilder = (props) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchasable, setPurchasable] = useState(false);
   const [purchasing, setPurchasing] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {

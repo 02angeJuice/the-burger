@@ -15,6 +15,11 @@ const ContactData = (props) => {
         placeholder: 'Your Name',
       },
       value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
     },
     street: {
       elementType: 'input',
@@ -23,6 +28,11 @@ const ContactData = (props) => {
         placeholder: 'Street',
       },
       value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
     },
     zipcode: {
       elementType: 'input',
@@ -31,6 +41,13 @@ const ContactData = (props) => {
         placeholder: 'ZIP Code',
       },
       value: '',
+      validation: {
+        required: true,
+        minLength: 5,
+        maxLength: 5,
+      },
+      valid: false,
+      touched: false,
     },
     country: {
       elementType: 'input',
@@ -39,6 +56,11 @@ const ContactData = (props) => {
         placeholder: 'Country',
       },
       value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
     },
     email: {
       elementType: 'input',
@@ -47,6 +69,11 @@ const ContactData = (props) => {
         placeholder: 'Your Email',
       },
       value: '',
+      validation: {
+        required: true,
+      },
+      valid: false,
+      touched: false,
     },
     deliveryMethod: {
       elementType: 'select',
@@ -57,12 +84,15 @@ const ContactData = (props) => {
           { value: 'fastest', displayValue: 'Fastest' },
         ],
       },
-      value: '',
+      value: 'normally',
+      validation: {},
+      valid: true,
     },
   };
 
   const [orderForm, setOrderForm] = useState(scratchForm);
   const [loading, setLoading] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(false);
 
   const orderSubmitHandler = async (e) => {
     e.preventDefault();
@@ -87,6 +117,28 @@ const ContactData = (props) => {
     }
   };
 
+  const checkValidity = (value, rules) => {
+    let isValid = true;
+
+    if (!rules) {
+      return true;
+    }
+
+    if (rules.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+    }
+
+    if (rules.maxLength) {
+      isValid = value.length <= rules.minLength && isValid;
+    }
+
+    return isValid;
+  };
+
   const inputChangeHandler = (e, inputIdentifier) => {
     const updateOrderForm = {
       ...orderForm,
@@ -97,7 +149,20 @@ const ContactData = (props) => {
     };
 
     updateFormElement.value = e.target.value;
+    updateFormElement.valid = checkValidity(
+      updateFormElement.value,
+      updateFormElement.validation
+    );
+    updateFormElement.touched = true;
     updateOrderForm[inputIdentifier] = updateFormElement;
+
+    let formIsValid = true;
+
+    for (const inputIdentifier in updateOrderForm) {
+      formIsValid = updateOrderForm[inputIdentifier].valid && formIsValid;
+    }
+
+    setFormIsValid(formIsValid);
     setOrderForm(updateOrderForm);
   };
 
@@ -118,6 +183,9 @@ const ContactData = (props) => {
           elementType={config.elementType}
           elementConfig={config.elementConfig}
           value={config.value}
+          invalid={!config.valid}
+          shouldValidate={config.validation}
+          touched={config.touched}
           changed={(e) => inputChangeHandler(e, id)}
         />
       );
@@ -130,7 +198,9 @@ const ContactData = (props) => {
         <form onSubmit={orderSubmitHandler}>
           {renderFormInput()}
 
-          <Button type="Success">Order</Button>
+          <Button type="Success" disabled={!formIsValid}>
+            Order
+          </Button>
         </form>
       );
     }
